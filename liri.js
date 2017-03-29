@@ -32,16 +32,16 @@ var inputValue = [];
 	// console.log(inputValue);
 //----------------------------------//
 
-
+liri(choice, inputValue);
 
 //----------------------------------//
-//use switch case for the options entered
-switch(choice){
-	case "my-tweets": 
-			myTweets();
-		break;
+function liri(choice, inputValue){
+	if(choice === "my-tweets"){
+		myTweets();
+		return;
+	}
 
-	case "spotify-this-song": 
+	else if(choice === "spotify-this-song"){
 		var trackName = inputValue;
 		// console.log(movieName);
 
@@ -57,9 +57,10 @@ switch(choice){
 			trackName = trackName;
 			spotifyThisSong(trackName);
 		}
-		break;
+		return;
+	}
 
-	case "movie-this": 		
+	else if(choice === "movie-this"){
 		var movieName = inputValue;
 		// console.log(movieName);
 
@@ -77,11 +78,20 @@ switch(choice){
 			movieThis(movieName);
 
 		}
-		break;
+		return;
 
-	case "do-what-it-says": 
+	}
+
+	else if(choice === "do-what-it-says"){
 			doWhatItSays();
-		break;
+			return;
+
+	}
+
+	else if(choice === " " || choice === undefined){
+		console.log("You didnt give any option");
+		return;
+	}
 }
 //----------------------------------//
 
@@ -214,15 +224,20 @@ function movieThis(movieName){
 //function for the do what it says
 function doWhatItSays(){
 	fs.readFile("random.txt", "utf8", function(error, data){
-		//Log the Tweets into log.txt
+		// console.log(data);
+
+		//Log the data into log.txt
 		log(data);
 
-		var dataArr = data.split(",");
-		var functionName = dataArr[0];
-		var argName = dataArr[1];
+		data = data.split(",");
 
-		choice = functionName;
-	
+		var functionName = data[0];
+		// console.log(functionName);
+		var argName = data[1];
+		// console.log(argName);
+
+		liri(functionName, argName);
+		return;	
 
 	});
 }
@@ -234,7 +249,10 @@ function log(logData){
 			console.log(error);
 		}
 		else{
+	    	console.log("-----------------------------");
 			console.log("Data logged in log file");
+	    	console.log("-----------------------------");
+
 		}
 	});
 }
